@@ -9,7 +9,7 @@ ApplicationWindow
     height: 115
     visible: true
     color: "transparent"
-    flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool
+    flags: Qt.FramelessWindowHint | Qt.Tool
 
     property bool isClockVisible: true
     property bool isFixedPosition: false
