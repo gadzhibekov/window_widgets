@@ -1,10 +1,12 @@
 #include "process.h"
+#include "../config.h"
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QDir>
 #include <QProcess>
+#include <QString>
 
 #include <functional>
 #include <unistd.h>
@@ -18,6 +20,17 @@ void signal_handler(int signum)
 
 int main(int argc, char** argv) 
 {
+    QString config_file_path = STANDART_TEMP_DIR + static_cast<QString>(CONFIG_FILE_NAME); 
+
+    std::cout << config_file_path.toStdString() << std::endl;
+
+    if (!is_file_exists(config_file_path))
+    {
+        create_config_file(config_file_path);
+    }
+
+    ConfigData config_data = Config::read();
+
     pid_t pid = fork();
     
     if (pid < 0) return EXIT_FAILURE;

@@ -10,8 +10,8 @@ find_package(Qt6 REQUIRED COMPONENTS Quick QuickControls2)
 
 qt6_add_executable(app
     main.cpp
-    processor.cpp
 
+    processor.cpp
     processor.h
 )
 

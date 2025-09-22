@@ -9,14 +9,14 @@ ApplicationWindow
     height: 115
     visible: true
     color: "transparent"
-    flags: Qt.FramelessWindowHint | Qt.Tool
+    flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool
 
-    property bool isClockVisible: true
-    property bool isFixedPosition: false
+    property bool isFixedPosition:  true
+    property bool isClockVisible:   true
 
     property int dragStartX: 0
     property int dragStartY: 0
-
+    
     MouseArea 
     {
         id: moveArea
@@ -112,7 +112,7 @@ ApplicationWindow
 
                 model: ListModel 
                 {
-                    ListElement { name: "Назад";           action: "back" }
+                    ListElement { name: "Назад";          action: "back" }
                     ListElement { name: "Скрыть";         action: "hide_or_show" }
                     ListElement { name: "Зафиксирован";   action: "toggle_fix" }
                     ListElement { name: "Удалить";        action: "delete" }
@@ -190,17 +190,24 @@ ApplicationWindow
                                 listWidgetWindow.visible = false
                                 rootWindow.isClockVisible = !rootWindow.isClockVisible
                                 timeText.visible = rootWindow.isClockVisible
+
+                                process_helper.update_hide_data(rootWindow.isClockVisible)
                             }
                             else if (action === "toggle_fix") 
                             {
                                 listWidgetWindow.visible = false
                                 rootWindow.isFixedPosition = !rootWindow.isFixedPosition
                                 moveArea.enabled = !rootWindow.isFixedPosition
+
+                                process_helper.update_move_data(rootWindow.isFixedPosition)
                             }
                             else if (action === "delete") 
                             {
                                 if (typeof process_helper !== "undefined") 
                                 {
+                                    process_helper.update_run_data(false)
+                                    process_helper.update_x_pos_data(rootWindow.x)
+                                    process_helper.update_y_pos_data(rootWindow.y)
                                     process_helper.kill_process()
                                 }
                             }
